@@ -29,13 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set Short SHA and Owner
+      - name: Set Short SHA and Repo Name
         id: vars
         run: |
           echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-          echo "owner_lower=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_OUTPUT
+          echo "repo_lower=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
         env:
-          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
 
       - uses: dorny/paths-filter@v3
         id: changes
@@ -67,6 +67,6 @@ jobs:
           context: .
           file: ${{ matrix.file }}
           push: true
-          tags: ghcr.io/${{ steps.vars.outputs.owner_lower }}/${{ matrix.service }}:${{ steps.vars.outputs.sha_short }}
+          tags: ghcr.io/${{ steps.vars.outputs.repo_lower }}/${{ matrix.service }}:${{ steps.vars.outputs.sha_short }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
