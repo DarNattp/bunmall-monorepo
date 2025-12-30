@@ -11,7 +11,8 @@ COPY packages ./packages
 COPY services/order ./services/order
 
 # Install dependencies
-RUN bun install --frozen-lockfile
+RUN sed -i '/"frontend"/d' package.json
+RUN bun install
 
 WORKDIR /app/services/order
 

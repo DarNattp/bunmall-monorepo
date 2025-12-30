@@ -12,7 +12,9 @@ COPY services/auth ./services/auth
 
 # Install dependencies for the monorepo
 # This installs dependencies for all workspaces, which ensures shared packages are linked correctly
-RUN bun install --frozen-lockfile
+# Remove "frontend" from workspaces as it is not needed for backend services and causes errors if missing
+RUN sed -i '/"frontend"/d' package.json
+RUN bun install
 
 WORKDIR /app/services/auth
 

@@ -11,7 +11,8 @@ COPY packages ./packages
 COPY services/product ./services/product
 
 # Install dependencies
-RUN bun install --frozen-lockfile
+RUN sed -i '/"frontend"/d' package.json
+RUN bun install
 
 WORKDIR /app/services/product
 
