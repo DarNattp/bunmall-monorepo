@@ -11,7 +11,7 @@ COPY packages ./packages
 COPY frontend ./frontend
 
 # Install dependencies
-RUN bun install --frozen-lockfile
+RUN bun install
 
 WORKDIR /app/frontend
 

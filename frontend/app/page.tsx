@@ -30,7 +30,7 @@ export default function Home() {
   const addToCart = (product: Product) => {
     // Simple local storage cart for demo
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const existing = cart.find((p: any) => p.productId === product.id);
+    const existing = cart.find((p: { productId: string; quantity: number }) => p.productId === product.id);
     if (existing) {
       existing.quantity += 1;
     } else {
