@@ -15,7 +15,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/products')
+    fetch('/api/v1/products')
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);

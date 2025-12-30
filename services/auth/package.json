@@ -4,7 +4,8 @@
   "module": "src/index.ts",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "test": "bun test"
+    "test": "bun test",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "elysia": "1.4.19",

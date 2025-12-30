@@ -7,4 +7,5 @@ export default {
   dbCredentials: {
     url: process.env.DATABASE_URL || 'postgres://user:password@localhost:5432/auth_db',
   },
+  tablesFilter: ["users"],
 } satisfies Config;

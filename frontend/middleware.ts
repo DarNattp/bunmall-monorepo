@@ -10,20 +10,20 @@ export function middleware(request: NextRequest) {
   const ORDER_URL = process.env.ORDER_SERVICE_URL || 'http://localhost:3003';
 
   // Rewrites
-  if (pathname.startsWith('/api/auth/')) {
-    const targetUrl = new URL(pathname.replace('/api/auth', ''), AUTH_URL);
+  if (pathname.startsWith('/api/v1/auth/')) {
+    const targetUrl = new URL(pathname.replace('/api/v1/auth', ''), AUTH_URL);
     targetUrl.search = request.nextUrl.search;
     return NextResponse.rewrite(targetUrl);
   }
 
-  if (pathname.startsWith('/api/products')) {
-    const targetUrl = new URL(pathname.replace('/api/products', '/products'), PRODUCT_URL);
+  if (pathname.startsWith('/api/v1/products')) {
+    const targetUrl = new URL(pathname.replace('/api/v1/products', '/products'), PRODUCT_URL);
     targetUrl.search = request.nextUrl.search;
     return NextResponse.rewrite(targetUrl);
   }
 
-  if (pathname.startsWith('/api/orders')) {
-    const targetUrl = new URL(pathname.replace('/api/orders', '/orders'), ORDER_URL);
+  if (pathname.startsWith('/api/v1/orders')) {
+    const targetUrl = new URL(pathname.replace('/api/v1/orders', '/orders'), ORDER_URL);
     targetUrl.search = request.nextUrl.search;
     return NextResponse.rewrite(targetUrl);
   }
