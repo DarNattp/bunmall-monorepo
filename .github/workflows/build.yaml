@@ -1,0 +1,56 @@
+name: ImageBuilder
+
+on:
+  push:
+    branches: [ "**" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - service: auth
+            file: services/auth/Dockerfile
+            context_dir: services/auth
+          - service: product
+            file: services/product/Dockerfile
+            context_dir: services/product
+          - service: order
+            file: services/order/Dockerfile
+            context_dir: services/order
+          - service: frontend
+            file: frontend/Dockerfile
+            context_dir: frontend
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set Short SHA
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - '${{ matrix.context_dir }}/**'
+              - 'packages/**'
+              - 'package.json'
+              - 'bun.lock'
+              - '${{ matrix.file }}'
+
+      - name: Set up Docker Buildx
+        if: steps.changes.outputs.src == 'true'
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Build Docker Image
+        if: steps.changes.outputs.src == 'true'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ${{ matrix.file }}
+          push: false
+          tags: bunmall/${{ matrix.service }}:${{ steps.vars.outputs.sha_short }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

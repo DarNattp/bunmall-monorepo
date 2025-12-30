@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bunmall
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: services/auth/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/bunmall
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  product-service:
+    build:
+      context: .
+      dockerfile: services/product/Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/bunmall
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  order-service:
+    build:
+      context: .
+      dockerfile: services/order/Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/bunmall
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - product-service
+      - order-service
+    networks:
+      - app-network
+
+volumes:
+  pgdata:
+
+networks:
+  app-network:
+    driver: bridge
