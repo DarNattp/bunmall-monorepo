@@ -8,13 +8,13 @@ COPY package.json bun.lock ./
 COPY packages ./packages
 
 # Copy service code
-COPY services/product ./services/product
+COPY src/order ./src/order
 
 # Install dependencies
-RUN sed -i '/"frontend"/d' package.json
+RUN sed -i 's|"src/\*"|"src/order"|g' package.json
 RUN bun install
 
-WORKDIR /app/services/product
+WORKDIR /app/src/order
 
 # Start the application
 CMD ["bun", "run", "src/index.ts"]

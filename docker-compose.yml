@@ -17,7 +17,7 @@ services:
   auth-service:
     build:
       context: .
-      dockerfile: services/auth/Dockerfile
+      dockerfile: src/auth/Dockerfile
     ports:
       - "3001:3001"
     environment:
@@ -30,7 +30,7 @@ services:
   product-service:
     build:
       context: .
-      dockerfile: services/product/Dockerfile
+      dockerfile: src/product/Dockerfile
     ports:
       - "3002:3002"
     environment:
@@ -43,7 +43,7 @@ services:
   order-service:
     build:
       context: .
-      dockerfile: services/order/Dockerfile
+      dockerfile: src/order/Dockerfile
     ports:
       - "3003:3003"
     environment:
@@ -56,7 +56,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: frontend/Dockerfile
+      dockerfile: src/web/Dockerfile
     ports:
       - "3000:3000"
     environment:

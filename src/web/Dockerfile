@@ -8,12 +8,12 @@ COPY package.json bun.lock ./
 COPY packages ./packages
 
 # Copy frontend code
-COPY frontend ./frontend
+COPY src/web ./src/web
 
 # Install dependencies
 RUN bun install
 
-WORKDIR /app/frontend
+WORKDIR /app/src/web
 
 # Build the Next.js application
 # Ensuring NEXT_TELEMETRY_DISABLED is set

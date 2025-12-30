@@ -11,17 +11,17 @@ jobs:
       matrix:
         include:
           - service: auth
-            file: services/auth/Dockerfile
-            context_dir: services/auth
+            file: src/auth/Dockerfile
+            context_dir: src/auth
           - service: product
-            file: services/product/Dockerfile
-            context_dir: services/product
+            file: src/product/Dockerfile
+            context_dir: src/product
           - service: order
-            file: services/order/Dockerfile
-            context_dir: services/order
+            file: src/order/Dockerfile
+            context_dir: src/order
           - service: frontend
-            file: frontend/Dockerfile
-            context_dir: frontend
+            file: src/web/Dockerfile
+            context_dir: src/web
     permissions:
       contents: read
       packages: write
