@@ -52,7 +52,8 @@ const app = new Elysia()
       email: user.email
     });
 
-    return { token };
+    const { password, ...userSafe } = user;
+    return { token, user: userSafe };
   }, {
     body: LoginSchema
   })
